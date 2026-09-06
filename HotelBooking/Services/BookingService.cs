@@ -67,7 +67,7 @@ namespace HotelBooking.Services
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
                 NoOfGuests = request.NoOfGuests,
-                Reference = Guid.NewGuid().ToString()
+                Reference = GenerateReference()
             };
             _db.Bookings.Add(booking);
             await _db.SaveChangesAsync();
@@ -83,6 +83,22 @@ namespace HotelBooking.Services
             };
 
         }
+
+        /// <summary>
+        /// Generates a unique booking reference in the format H-DDMMYYYY-XXXX where XXXX is a random alphanumeric string that omits difficult to interpret chars
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateReference()
+        {
+            var date = DateTime.Now.ToString("ddMMyyyyfff");
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            var random = new Random();
+            var suffix = new string(Enumerable.Repeat(chars, 4)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            return String.Format("H-{0}{1}", date, suffix);
+        }
+
 
         /// <summary>
         /// Retrieves booking by reference

@@ -18,5 +18,14 @@ namespace HotelBooking.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Booking>()
+                .HasIndex(b => b.Reference)
+                .IsUnique();
+        }
     }
 }
