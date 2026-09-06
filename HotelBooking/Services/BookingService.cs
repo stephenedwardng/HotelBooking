@@ -45,6 +45,12 @@ namespace HotelBooking.Services
             if (request.NoOfGuests > roomType.Capacity)
                 throw new BusinessRuleException("Room capacity exceeded");
 
+            if (request.StartDate <= DateTime.Now)
+                throw new BusinessRuleException("Start date must not be in the past");
+
+            if (request.EndDate <= request.StartDate)
+                throw new BusinessRuleException("End date must be a day or more after start date");
+
             bool overlap = await _db.Bookings
                 .AnyAsync(b =>
                     b.RoomId == request.RoomId &&
