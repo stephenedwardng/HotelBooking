@@ -1,5 +1,6 @@
 ﻿using HotelBooking.Data;
 using HotelBooking.Models;
+using HotelBooking.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Services
@@ -16,15 +17,17 @@ namespace HotelBooking.Services
             _db = db;
         }
 
+
         /// <summary>
-        /// Finds available rooms in a hotel for a given date range and number of guests
+        /// Finds available rooms for a given hotel, date range, no of guests.
         /// </summary>
-        /// <param name="hotelId">ID of the hotel</param>
-        /// <param name="start">Start date of the booking period</param>
-        /// <param name="end">End date of the booking period</param>
-        /// <param name="guests">Number of guests</param>
+        /// <param name="hotelId">Id of the hotel</param>
+        /// <param name="start">Start date of the booking</param>
+        /// <param name="end">End date of the booking</param>
+        /// <param name="guests">No of guests</param>
         /// <returns>List of available rooms</returns>
-        public async Task<IEnumerable<Room>> FindAvailableRoomsAsync(int hotelId, DateTime start, DateTime end, int guests)
+        public async Task<IEnumerable<AvailableRoom>> FindAvailableRoomsAsync(
+            int hotelId, DateTime start, DateTime end, int guests)
         {
             var rooms = await _db.Rooms
                 .Where(r => r.HotelId == hotelId)
@@ -36,12 +39,20 @@ namespace HotelBooking.Services
                 .Select(rt => rt.room)
                 .ToListAsync();
 
-            return rooms.Where(room =>
+            var availableRooms = rooms.Where(room =>
                 !_db.Bookings.Any(b =>
                     b.RoomId == room.Id &&
                     b.StartDate < end &&
                     b.EndDate > start));
+
+            return availableRooms.Select(r => new AvailableRoom
+            {
+                Id = r.Id,
+                HotelId = r.HotelId,
+                RoomTypeId = r.RoomTypeId
+            });
         }
+
     }
 
 }
