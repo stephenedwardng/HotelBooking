@@ -79,7 +79,8 @@ namespace HotelBooking.Controllers
         /// <param name="reference">The reference of the booking to retrieve.</param>
         /// <returns>The booking if found, otherwise not found.</returns>
         [HttpGet("booking")]
-        public async Task<ActionResult<Booking>> GetBookingByReference(string reference)
+        public async Task<ActionResult<BookingDetails>> GetBookingByReference(string reference)
+
         {
             var booking = await _bookingService.GetBookingByReferenceAsync(reference);
             return booking == null ? NotFound("Booking not found.") : booking;

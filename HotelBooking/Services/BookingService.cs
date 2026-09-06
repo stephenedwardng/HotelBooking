@@ -25,7 +25,7 @@ namespace HotelBooking.Services
         /// <param name="request">Booking request</param>
         /// <returns>Created booking with reference</returns>
         /// <exception cref="BusinessRuleException">Thrown when a business rule is violated</exception>
-        public async Task<Booking> BookRoomAsync(BookRoomRequest request)
+        public async Task<BookingDto> BookRoomAsync(BookRoomRequest request)
         {
             var room = await _db.Rooms.FindAsync(request.RoomId)
                 ?? throw new BusinessRuleException("Room not found");
@@ -72,7 +72,16 @@ namespace HotelBooking.Services
             _db.Bookings.Add(booking);
             await _db.SaveChangesAsync();
 
-            return booking;
+            return new BookingDto
+            {
+                Reference = booking.Reference,
+                RoomId = booking.RoomId,
+                GuestId = booking.GuestId,
+                StartDate = booking.StartDate,
+                EndDate = booking.EndDate,
+                NoOfGuests = booking.NoOfGuests
+            };
+
         }
 
         /// <summary>
@@ -80,12 +89,29 @@ namespace HotelBooking.Services
         /// </summary> 
         /// <param name="reference">Booking reference</param>
         /// <returns>Booking if found, otherwise null</returns>
-        public async Task<Booking?> GetBookingByReferenceAsync(string reference)
+        public async Task<BookingDetails?> GetBookingByReferenceAsync(string reference)
         {
-            return await _db.Bookings
+            var booking = await _db.Bookings
                 .Include(b => b.Room)
+                    .ThenInclude(r => r.RoomType)
                 .Include(b => b.Guest)
                 .FirstOrDefaultAsync(b => b.Reference == reference);
+
+            if (booking == null)
+                return null;
+
+            return new BookingDetails
+            {
+                Reference = booking.Reference,
+                RoomId = booking.RoomId,
+                GuestId = booking.GuestId,
+                StartDate = booking.StartDate,
+                EndDate = booking.EndDate,
+                NoOfGuests = booking.NoOfGuests,
+                GuestName = booking.Guest.Name,
+                RoomTypeName = booking.Room.RoomType.Name
+            };
+
         }
     }
 
