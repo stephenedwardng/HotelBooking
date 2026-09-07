@@ -3,6 +3,7 @@ using HotelBooking.Middleware;
 using HotelBooking.Services;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -38,3 +39,8 @@ app.MapControllers();
 app.UseMiddleware<ErrorLoggingMiddleware>();
 
 app.Run();
+
+namespace HotelBooking
+{
+    public partial class Program { }
+}
