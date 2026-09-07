@@ -56,19 +56,23 @@ https://spacetourer.atlassian.net/jira/software/projects/SCRUM/boards/1?filter=&
 
 * Automated testing
 
-## AI
-No AI agents (Claude Code, Github Copilot etc) were used. Copilot chat was used for things like troubleshooting a corrupted IIS Express install, setting up SQLlite and speeding up the unit tests.
+## AI, Microsoft Docs, StackOverflow
+No AI agents (Claude Code, Github Copilot etc) were used. Copilot chat, Microsoft documentation and StackOverflow were used for things like troubleshooting a corrupted IIS Express install, LINQ syntax, setting up SQLlite and speeding up the unit tests.
 
 ## Swagger
 
 Swagger documentation is available at https://localhost:xxxxx/swagger
 
 Seed data /api/TestData/Seed
+
 Reset data /api/TestData/Reset
 
 Get hotel by name /api/HotelBooking/hotel
+
 Get available rooms /api/HotelBooking/available-rooms
+
 Book room /api/HotelBooking/book
+
 Get booking by reference /api/HotelBooking/booking
 
 ## Automated Testing
