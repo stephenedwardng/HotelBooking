@@ -43,7 +43,8 @@ https://spacetourer.atlassian.net/jira/software/projects/SCRUM/boards/1?filter=&
   * Expose functionality to allow for seeding and resetting the data
 
 * Error handling 
-  * error log
+  * Error log
+  * Custom Business Exceptions
 
 * XML documentation
 
