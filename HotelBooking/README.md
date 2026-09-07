@@ -10,8 +10,11 @@ This is a technical task by Stephen Edward Ng for Waracle. This is a hotel room 
 
 ### Jira Board
 
-Project tasks can be seen on Jira 
-https://spacetourer.atlassian.net/jira/software/projects/SCRUM/boards/1?filter=&groupBy=none
+Project tasks were managed on Jira. 
+
+![Jira Board](JiraBoard.png)
+
+The tasks are listed below for convenience. If you would like access to the board, please let me know your email and I will add you to the board.
 
 ### Project Tasks
 
